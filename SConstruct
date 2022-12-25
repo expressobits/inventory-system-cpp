@@ -18,14 +18,14 @@ sources = Glob("src/*.cpp")
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
-        "inventory-system/addons/inventory-system/bin/libgdexample.{}.{}.framework/libgdexample.{}.{}".format(
+        "inventory-system/addons/inventory-system/bin/inventory-system.{}.{}.framework/inventory-system.{}.{}".format(
             env["platform"], env["target"], env["platform"], env["target"]
         ),
         source=sources,
     )
 else:
     library = env.SharedLibrary(
-        "inventory-system/addons/inventory-system/bin/libgdexample{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        "inventory-system/addons/inventory-system/bin/inventory-system{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 
