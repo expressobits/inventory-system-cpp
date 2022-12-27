@@ -18,13 +18,16 @@ class Inventory : public Node {
 
 	GDCLASS(Inventory, Node);
 
+	bool fixed_size;
     
 public:
 	Inventory();
 	~Inventory();
+	bool is_fixed_size() const;
+	void set_fixed_size(const bool &f_size);
 
 protected:
-	static void _bind_methods(){};
+	static void _bind_methods();
 
 };
 
