@@ -11,6 +11,8 @@
 
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/global_constants.hpp>
+#include "item.h"
+#include "slot.h"
 
 using namespace godot;
 
@@ -18,6 +20,7 @@ class Inventory : public Node {
 
 	GDCLASS(Inventory, Node);
 
+	Array<Dictionary> slots;
 	bool fixed_size;
     
 public:
@@ -25,6 +28,12 @@ public:
 	~Inventory();
 	bool is_fixed_size() const;
 	void set_fixed_size(const bool &f_size);
+	Array get_slots() const;
+	void set_slots(const Array &p_slots);
+	int add(const Ref<Item> &p_item, const int &p_amount);
+	int remove(const Ref<Item> &p_item, const int &p_amount);
+	bool contains(const Ref<Item> &p_item, const int &amount = 1) const;
+	void clear();
 
 protected:
 	static void _bind_methods();

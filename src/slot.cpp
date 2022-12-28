@@ -27,8 +27,12 @@ int Slot::get_amount() const {
     return amount;
 }
 
+bool Slot::is_empty() const {
+    return amount == 0;
+}
+
 int Slot::add(const Ref<Item> &item, const int &amount) {
-    if(amount <= 0 || (this->item != item && this->item != NULL)) {
+    if(amount <= 0 || (this->item != item && this->item != nullptr)) {
         return amount;
     }
     int _amount_to_add = godot::Math::min(amount, item->get_max_stack() - this->amount);
@@ -42,16 +46,16 @@ int Slot::add(const Ref<Item> &item, const int &amount) {
 }
 
 int Slot::remove(const Ref<Item> &item, const int &amount) {
-    if(amount <= 0 || this->item != item && this->item != NULL)
+    if(amount <= 0 || (this->item != item && this->item != nullptr))
     {
         return amount;
     }
     int amount_to_remove = godot::Math::min(amount, this->amount);
     this->amount -= amount_to_remove;
-    // TODO Check if remove item information
-    // if(this->amount <= 0) {
-    //     this->item = NULL;
-    // }
+    //TODO Check if remove item information
+    if(this->amount <= 0) {
+        this->set_item(nullptr);
+    }
     return amount - amount_to_remove;
 }
 
@@ -62,6 +66,7 @@ void Slot::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_amount", "amount"), &Slot::set_amount);
     ClassDB::bind_method(D_METHOD("add", "item", "amount"), &Slot::add);
     ClassDB::bind_method(D_METHOD("remove", "item", "amount"), &Slot::remove);
+    ClassDB::bind_method(D_METHOD("is_empty"), &Slot::is_empty);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "item", PROPERTY_HINT_RESOURCE_TYPE, "Item"), "set_item", "get_item");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "amount"), "set_amount", "get_amount");
 }

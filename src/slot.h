@@ -23,6 +23,7 @@ public:
     Ref<Item> get_item() const;
     void set_amount(const int &new_amount);
     int get_amount() const;
+    bool is_empty() const;
     int add(const Ref<Item> &item, const int &amount);
     int remove(const Ref<Item> &item, const int &amount);
 };

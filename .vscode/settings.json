@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        ".qtn": "html",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "type_traits": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "xmemory": "cpp",
+        "atomic": "cpp",
+        "ios": "cpp",
+        "system_error": "cpp",
+        "xiosbase": "cpp"
+    }
+}
