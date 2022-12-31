@@ -12,7 +12,6 @@
 #include <godot_cpp/godot.hpp>
 
 #include "item.h"
-#include "slot.h"
 #include "inventory.h"
 #include "tests.h"
 
@@ -24,7 +23,6 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 	}
 
 	ClassDB::register_class<Item>();
-	ClassDB::register_class<Slot>();
 	ClassDB::register_class<Inventory>();
 }
 
