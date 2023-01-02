@@ -40,7 +40,9 @@ public:
 	bool get_remove_slot_if_empty() const;
 	void set_remove_slot_if_empty(const bool &p_remove_slot_if_empty);
 	int add(const Ref<Item> &p_item, const int &p_amount = 1);
+	int add_at(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount = 1);
 	int remove(const Ref<Item> &p_item, const int &p_amount = 1);
+	int remove_at(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount = 1);
 	bool contains(const Ref<Item> &p_item, const int &p_amount = 1) const;
 	int get_amount_of(const Ref<Item> &p_item, const int &p_amount = 1) const;
 	void clear();
@@ -57,7 +59,7 @@ private:
 	int add_to_slot(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount);
 	int remove_from_slot(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount);
 	// SIGNALS
-	void call_events(const int &old_amount) const;
+	void call_events(const int &p_old_amount);
 
 };
 

@@ -84,8 +84,8 @@ void Inventory::set_remove_slot_if_empty(const bool &p_remove_slot_if_empty) {
 
 int Inventory::add(const Ref<Item> &p_item, const int &p_amount) {
 	int amount_in_interact = p_amount;
+    int old_amount = get_amount();
 	for(int i = 0; i < slots.size(); i++) {
-        Dictionary slot = slots[i];
         amount_in_interact = add_to_slot(i, p_item, amount_in_interact);
     }
 	if(create_slot_if_needed && amount_in_interact > 0) {
@@ -94,12 +94,23 @@ int Inventory::add(const Ref<Item> &p_item, const int &p_amount) {
         emit_signal("slot_added", slots.size() - 1);
 		amount_in_interact = add_to_slot(slots.size() - 1, p_item, amount_in_interact);
     }
-    emit_signal("inventory_changed");
+    call_events(old_amount);
+    return amount_in_interact;
+}
+
+int Inventory::add_at(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount) {
+	int amount_in_interact = p_amount;
+    int old_amount = get_amount();
+	if(p_slot_index < slots.size()) {
+        amount_in_interact = add_to_slot(p_slot_index, p_item, amount_in_interact);
+        call_events(old_amount);
+    }
     return amount_in_interact;
 }
 
 int Inventory::remove(const Ref<Item> &p_item, const int &p_amount) {
 	int amount_in_interact = p_amount;
+    int old_amount = get_amount();
     for(int i = slots.size() - 1; i >= 0; i--) {
 		Dictionary slot = slots[i];
 		amount_in_interact = remove_from_slot(i, p_item, amount_in_interact);
@@ -108,7 +119,22 @@ int Inventory::remove(const Ref<Item> &p_item, const int &p_amount) {
             emit_signal("slot_removed", i);
         }
     }
-	emit_signal("inventory_changed");
+	call_events(old_amount);
+	return amount_in_interact;
+}
+
+int Inventory::remove_at(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount) {
+	int amount_in_interact = p_amount;
+    int old_amount = get_amount();
+    if(p_slot_index < slots.size()) {
+        Dictionary slot = slots[p_slot_index];
+		amount_in_interact = remove_from_slot(p_slot_index, p_item, amount_in_interact);
+        if(remove_slot_if_empty && int(slot["amount"]) == 0) {
+            slots.remove_at(p_slot_index);
+            emit_signal("slot_removed", p_slot_index);
+        }
+	    call_events(old_amount);
+    }
 	return amount_in_interact;
 }
 
@@ -152,16 +178,17 @@ void Inventory::clear() {
     emit_signal("emptied");
 }
 
-void Inventory::call_events(const int &old_amount) const {
-    // int actual_amount = get_amount();
-    // if(old_amount != actual_amount) {
-    //     emit_signal("inventory_changed");
-    //     if(actual_amount == 0) {
-    //         emit_signal("emptied");
-    //     }
-    //     // if(actual_amount == )
-    // }
-    
+void Inventory::call_events(const int &p_old_amount) {
+    int actual_amount = get_amount();
+    if(p_old_amount != actual_amount) {
+        emit_signal("inventory_changed");
+        if(is_empty()) {
+            emit_signal("emptied");
+        }
+        if(is_full()) {
+            emit_signal("filled");
+        }
+    }
 }
 
 bool Inventory::is_empty() const{
@@ -172,7 +199,7 @@ bool Inventory::is_full() const{
     for(int i = 0;i < slots.size(); i++) {
         Dictionary slot = slots[i];
         Ref<Item> item = Ref<Item>(slot["item"]);
-        if(int(slot["amount"]) < item->get_max_stack()) {
+        if(item == NULL || int(slot["amount"]) < item->get_max_stack()) {
             return false;
         }
     }
@@ -199,7 +226,9 @@ void Inventory::_bind_methods() {
     ClassDB::bind_method(D_METHOD("contains", "item", "amount"), &Inventory::contains, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("get_amount_of", "item", "amount"), &Inventory::get_amount_of, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("add", "item", "amount"), &Inventory::add, DEFVAL(1));
+    ClassDB::bind_method(D_METHOD("add_at", "slot_index", "item", "amount"), &Inventory::add_at, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("remove", "item", "amount"), &Inventory::remove, DEFVAL(1));
+    ClassDB::bind_method(D_METHOD("remove_at", "slot_index", "item", "amount"), &Inventory::remove_at, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("clear"), &Inventory::clear);
     ClassDB::bind_method(D_METHOD("get_amount"), &Inventory::get_amount);
 
