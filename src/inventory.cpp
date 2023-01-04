@@ -39,6 +39,16 @@ int Inventory::remove_from_slot(const int &p_slot_index, const Ref<Item> &p_item
     return p_amount - amount_to_remove;
 }
 
+bool Inventory::is_empty_slot(const int &p_slot_index) const{
+    if(slots.size() <= p_slot_index)
+        return true;
+    Dictionary slot = slots[p_slot_index];
+    if(slot.has("amount") && int(slot["amount"]) > 0) {
+        return false;
+    }
+    return true;
+}
+
 Inventory::~Inventory() {
 }
 
@@ -231,6 +241,8 @@ void Inventory::_bind_methods() {
     ClassDB::bind_method(D_METHOD("remove_at", "slot_index", "item", "amount"), &Inventory::remove_at, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("clear"), &Inventory::clear);
     ClassDB::bind_method(D_METHOD("get_amount"), &Inventory::get_amount);
+    // Slots
+    ClassDB::bind_method(D_METHOD("is_empty_slot", "slot_index"), &Inventory::is_empty_slot);
 
     ADD_SIGNAL(MethodInfo("inventory_changed"));
     ADD_SIGNAL(MethodInfo("slot_added", PropertyInfo(Variant::INT, "slot_index")));

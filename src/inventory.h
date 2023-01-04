@@ -49,6 +49,8 @@ public:
 	int get_amount() const;
 	bool is_empty() const;
 	bool is_full() const;
+	// Slots
+	bool is_empty_slot(const int &slot_index) const;
 
 protected:
 	static void _bind_methods();
