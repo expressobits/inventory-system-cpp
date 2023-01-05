@@ -39,6 +39,7 @@ public:
 	void set_create_slot_if_needed(const bool &p_create_slot_if_needed);
 	bool get_remove_slot_if_empty() const;
 	void set_remove_slot_if_empty(const bool &p_remove_slot_if_empty);
+	void set_slot(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount);
 	int add(const Ref<Item> &p_item, const int &p_amount = 1);
 	int add_at(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount = 1);
 	int remove(const Ref<Item> &p_item, const int &p_amount = 1);

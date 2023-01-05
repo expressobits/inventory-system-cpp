@@ -16,6 +16,8 @@
         "system_error": "cpp",
         "xiosbase": "cpp",
         "algorithm": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "limits": "cpp",
+        "utility": "cpp"
     }
 }

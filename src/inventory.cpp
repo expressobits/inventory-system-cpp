@@ -7,6 +7,13 @@ using namespace godot;
 Inventory::Inventory() {
 }
 
+void Inventory::set_slot(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount) {
+    Dictionary slot = slots[p_slot_index];
+    slot["item"] = p_item;
+    slot["amount"] = godot::Math::min(p_amount , p_item->get_max_stack());
+    emit_signal("updated_slot", p_slot_index);
+}
+
 int Inventory::add_to_slot(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount) {
     Dictionary slot = slots[p_slot_index];
     Ref<Item> item = Ref<Item>(slot["item"]);
@@ -236,6 +243,7 @@ void Inventory::_bind_methods() {
     ClassDB::bind_method(D_METHOD("contains", "item", "amount"), &Inventory::contains, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("get_amount_of", "item", "amount"), &Inventory::get_amount_of, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("add", "item", "amount"), &Inventory::add, DEFVAL(1));
+    ClassDB::bind_method(D_METHOD("set_slot", "slot_index", "item", "amount"), &Inventory::set_slot);
     ClassDB::bind_method(D_METHOD("add_at", "slot_index", "item", "amount"), &Inventory::add_at, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("remove", "item", "amount"), &Inventory::remove, DEFVAL(1));
     ClassDB::bind_method(D_METHOD("remove_at", "slot_index", "item", "amount"), &Inventory::remove_at, DEFVAL(1));
