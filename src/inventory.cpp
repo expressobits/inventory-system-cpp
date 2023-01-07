@@ -59,13 +59,13 @@ bool Inventory::is_empty_slot(const int &p_slot_index) const{
 Inventory::~Inventory() {
 }
 
-bool Inventory::get_has_slots_capacity() const {
-    return has_slots_capacity;
-}
+// bool Inventory::get_has_slots_capacity() const {
+//     return has_slots_capacity;
+// }
 
-void Inventory::set_has_slots_capacity(const bool &p_has_slots_capacity) {
-    has_slots_capacity = p_has_slots_capacity;
-}
+// void Inventory::set_has_slots_capacity(const bool &p_has_slots_capacity) {
+//     has_slots_capacity = p_has_slots_capacity;
+// }
 
 TypedArray<Dictionary> Inventory::get_slots() const {
 	return slots;
@@ -75,27 +75,27 @@ void Inventory::set_slots(const TypedArray<Dictionary> &p_slots) {
 	slots = p_slots;
 }
 
-void Inventory::set_slots_capacity(const int &p_slots_capacity) {
-    slots_capacity = p_slots_capacity;
-}
+// void Inventory::set_slots_capacity(const int &p_slots_capacity) {
+//     slots_capacity = p_slots_capacity;
+// }
 
-int Inventory::get_slots_capacity() const {
-    return slots_capacity;
-}
+// int Inventory::get_slots_capacity() const {
+//     return slots_capacity;
+// }
 
-bool Inventory::get_create_slot_if_needed() const {
+bool Inventory::is_create_slot_if_needed() const {
     return create_slot_if_needed;
 }
 
-void Inventory::set_create_slot_if_needed(const bool &p_create_slot_if_needed) {
+void Inventory::set_create_slot_if_needed(bool p_create_slot_if_needed) {
     create_slot_if_needed = p_create_slot_if_needed;
 }
 
-bool Inventory::get_remove_slot_if_empty() const {
+bool Inventory::is_remove_slot_if_empty() const {
     return remove_slot_if_empty;
 }
 
-void Inventory::set_remove_slot_if_empty(const bool &p_remove_slot_if_empty) {
+void Inventory::set_remove_slot_if_empty(bool p_remove_slot_if_empty) {
     remove_slot_if_empty = p_remove_slot_if_empty;
 }
 
@@ -223,20 +223,14 @@ bool Inventory::is_full() const{
     return true;
 }
 
-void Inventory::_validate_property(PropertyInfo &p_property) const {
-	// if (!has_slots_capacity && p_property.name == ((godot::StringName)"slots_capacity")) {
-	// 	p_property.usage = PROPERTY_USAGE_NO_EDITOR;
-	// }
-}
-
 void Inventory::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_has_slots_capacity"), &Inventory::get_has_slots_capacity);
-    ClassDB::bind_method(D_METHOD("set_has_slots_capacity", "has_slots_capacity"), &Inventory::set_has_slots_capacity);
-    ClassDB::bind_method(D_METHOD("set_slots_capacity", "slots_capacity"), &Inventory::set_slots_capacity);
-    ClassDB::bind_method(D_METHOD("get_slots_capacity"), &Inventory::get_slots_capacity);
-    ClassDB::bind_method(D_METHOD("get_create_slot_if_needed"), &Inventory::get_create_slot_if_needed);
+    // ClassDB::bind_method(D_METHOD("get_has_slots_capacity"), &Inventory::get_has_slots_capacity);
+    // ClassDB::bind_method(D_METHOD("set_has_slots_capacity", "has_slots_capacity"), &Inventory::set_has_slots_capacity);
+    // ClassDB::bind_method(D_METHOD("set_slots_capacity", "slots_capacity"), &Inventory::set_slots_capacity);
+    // ClassDB::bind_method(D_METHOD("get_slots_capacity"), &Inventory::get_slots_capacity);
+    ClassDB::bind_method(D_METHOD("is_create_slot_if_needed"), &Inventory::is_create_slot_if_needed);
     ClassDB::bind_method(D_METHOD("set_create_slot_if_needed", "create_slot_if_needed"), &Inventory::set_create_slot_if_needed);
-    ClassDB::bind_method(D_METHOD("get_remove_slot_if_empty"), &Inventory::get_remove_slot_if_empty);
+    ClassDB::bind_method(D_METHOD("is_remove_slot_if_empty"), &Inventory::is_remove_slot_if_empty);
     ClassDB::bind_method(D_METHOD("set_remove_slot_if_empty", "remove_slot_if_empty"), &Inventory::set_remove_slot_if_empty);
     ClassDB::bind_method(D_METHOD("get_slots"), &Inventory::get_slots);
     ClassDB::bind_method(D_METHOD("set_slots", "slots"), &Inventory::set_slots);
@@ -259,8 +253,8 @@ void Inventory::_bind_methods() {
     ADD_SIGNAL(MethodInfo("emptied"));
     ADD_SIGNAL(MethodInfo("updated_slot", PropertyInfo(Variant::INT, "slot_index")));
 
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "create_slot_if_needed"), "set_create_slot_if_needed", "get_create_slot_if_needed");
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "remove_slot_if_empty"), "set_remove_slot_if_empty", "get_remove_slot_if_empty");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "create_slot_if_needed"), "set_create_slot_if_needed", "is_create_slot_if_needed");
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "remove_slot_if_empty"), "set_remove_slot_if_empty", "is_remove_slot_if_empty");
     // ADD_PROPERTY(PropertyInfo(Variant::BOOL, "has_slots_capacity"), "set_has_slots_capacity", "get_has_slots_capacity");
     // ADD_PROPERTY(PropertyInfo(Variant::INT, "slots_capacity"), "set_slots_capacity", "get_slots_capacity");
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "slots"), "set_slots", "get_slots");

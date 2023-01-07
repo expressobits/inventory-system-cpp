@@ -21,24 +21,24 @@ class Inventory : public Node {
 	GDCLASS(Inventory, Node);
 
 	TypedArray<Dictionary> slots;
-	bool has_slots_capacity;
-	int slots_capacity = 16;
-	bool create_slot_if_needed;
-	bool remove_slot_if_empty;
+	// bool has_slots_capacity;
+	// int slots_capacity = 16;
+	bool create_slot_if_needed = false;
+	bool remove_slot_if_empty = false;
     
 public:
 	Inventory();
 	~Inventory();
-	bool get_has_slots_capacity() const;
-	void set_has_slots_capacity(const bool &p_has_slots_capacity);
+	// bool get_has_slots_capacity() const;
+	// void set_has_slots_capacity(const bool &p_has_slots_capacity);
 	TypedArray<Dictionary> get_slots() const;
 	void set_slots(const TypedArray<Dictionary> &p_slots);
-	void set_slots_capacity(const int &slots_capacity);
-	int get_slots_capacity() const;
-	bool get_create_slot_if_needed() const;
-	void set_create_slot_if_needed(const bool &p_create_slot_if_needed);
-	bool get_remove_slot_if_empty() const;
-	void set_remove_slot_if_empty(const bool &p_remove_slot_if_empty);
+	// void set_slots_capacity(const int &slots_capacity);
+	// int get_slots_capacity() const;
+	bool is_create_slot_if_needed() const;
+	void set_create_slot_if_needed(bool p_create_slot_if_needed);
+	bool is_remove_slot_if_empty() const;
+	void set_remove_slot_if_empty(bool p_remove_slot_if_empty);
 	void set_slot(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount);
 	int add(const Ref<Item> &p_item, const int &p_amount = 1);
 	int add_at(const int &p_slot_index, const Ref<Item> &p_item, const int &p_amount = 1);
@@ -55,7 +55,6 @@ public:
 
 protected:
 	static void _bind_methods();
-	void _validate_property(PropertyInfo &p_property) const;
 
 private:
 	// SLOTS
