@@ -14,6 +14,7 @@ private:
     int max_stack = 0;
     String name;
     Ref<Texture2D> icon;
+    Dictionary objects;
 
 protected:
     static void _bind_methods();
@@ -27,6 +28,9 @@ public:
     String get_name() const;
     void set_icon(const Ref<Texture2D> &new_icon);
 	Ref<Texture2D> get_icon() const;
+    void set_objects(const Dictionary &p_objects);
+    Dictionary get_objects() const;
+
 };
 
 #endif
